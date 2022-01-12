@@ -90,7 +90,7 @@ function enterWord() {
   var endLetter = 4;
   var topLetters = letterList.slice(0, endLetter);
   var testWord = topLetters.toString();
-  const fetchPromise = fetch(`http://www.anagramica.com/all/:${topLetters}`);
+  const fetchPromise = fetch(`https://www.anagramica.com/all/:${testWord}`);
   fetchPromise
     .then((response) => {
       return response.json();
