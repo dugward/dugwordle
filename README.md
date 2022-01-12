@@ -1,10 +1,10 @@
-# Cultural Veg
+# Dugwardle
 
-desc
+A wordle solving website
 
 ## To Use
 
-inst
+Enter your first word and click the button!
 
 ## Images
 
