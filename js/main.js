@@ -87,9 +87,10 @@ document
   .addEventListener("click", enterWord);
 
 function enterWord() {
-  var endLetter = 4;
+  var endLetter = 5;
   var topLetters = letterList.slice(0, endLetter);
-  var testWord = topLetters.toString();
+  var testWord = topLetters.join("");
+  console.log(testWord);
   const fetchPromise = fetch(`https://www.anagramica.com/all/:${testWord}`);
   fetchPromise
     .then((response) => {
