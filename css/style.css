@@ -1,0 +1,98 @@
+body {
+  padding: 15% 8% 0;
+  text-align: center;
+
+  font-size: 8vw;
+  text-transform: uppercase;
+  font-family: neue-haas-grotesk-display, sans-serif;
+  font-weight: 600;
+  font-style: normal;
+  background-color: #b29bb9;
+}
+::placeholder {
+  color: rgb(233, 231, 231);
+  letter-spacing: 0.5vw;
+}
+::selection {
+  background: lightgray;
+}
+
+input {
+  display: inline;
+  margin: 1.5%;
+  border: 2px solid black;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  color: rgb(233, 231, 231);
+  text-align: center;
+  resize: none;
+  width: 90%;
+  text-transform: uppercase;
+  background-color: #b29bb9;
+  letter-spacing: 0.5vw;
+  outline: none;
+}
+
+.words {
+  text-align: center;
+  width: 100%;
+}
+
+.word > div {
+  display: inline-block;
+  border: 1px black solid;
+  border-radius: 1vw;
+  padding: 1vw;
+  width: 9vw;
+  margin: 1vw;
+  cursor: pointer;
+  background-color: white;
+}
+
+.material-icons {
+  font-size: 10vw;
+  color: rgb(73, 73, 73);
+  margin-top: 6%;
+}
+
+.checkButton {
+  display: none;
+}
+
+.clicksplain {
+  margin-top: -8%;
+  margin-bottom: -6%;
+  display: none;
+  font-weight: 600;
+  font-size: 5vw;
+  letter-spacing: 0.5vw;
+}
+
+@media (hover: hover) {
+  .material-icons:hover {
+    font-size: 10vw;
+    color: black;
+    margin-top: 6%;
+  }
+}
+
+/* Larger than mobile */
+@media (min-width: 400px) {
+}
+
+/* Larger than phablet (also point when grid becomes active) */
+@media (min-width: 550px) {
+}
+
+/* Larger than tablet */
+@media (min-width: 750px) {
+}
+
+/* Larger than desktop */
+@media (min-width: 1000px) {
+}
+
+/* Larger than Desktop HD */
+@media (min-width: 1200px) {
+}
