@@ -91,7 +91,7 @@ function enterWord() {
   var topLetters = letterList.slice(0, endLetter);
   var testWord = topLetters.join("");
   console.log(testWord);
-  const fetchPromise = fetch(`https://www.anagramica.com/all/:${testWord}`);
+  const fetchPromise = fetch(`http://www.anagramica.com/all/:${testWord}`);
   fetchPromise
     .then((response) => {
       return response.json();
