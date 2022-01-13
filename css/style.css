@@ -1,8 +1,8 @@
 body {
-  padding: 15% 8% 0;
+  padding: 5% 8% 0;
   text-align: center;
 
-  font-size: 8vw;
+  font-size: 7vw;
   text-transform: uppercase;
   font-family: neue-haas-grotesk-display, sans-serif;
   font-weight: 600;
@@ -17,9 +17,29 @@ body {
   background: lightgray;
 }
 
+.unselectable {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.title {
+  font-family: fenway-park-jf, sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  text-transform: lowercase;
+  font-size: 8vw;
+  margin-top: 2%;
+  color: #313131;
+}
+.input {
+  margin-top: 7%;
+}
 input {
   display: inline;
-  margin: 1.5%;
   border: 2px solid black;
   border-top: none;
   border-left: none;
@@ -27,7 +47,7 @@ input {
   color: rgb(233, 231, 231);
   text-align: center;
   resize: none;
-  width: 90%;
+  width: 60%;
   text-transform: uppercase;
   background-color: #b29bb9;
   letter-spacing: 0.5vw;
@@ -51,9 +71,8 @@ input {
 }
 
 .material-icons {
-  font-size: 10vw;
-  color: rgb(73, 73, 73);
-  margin-top: 6%;
+  font-size: 8.5vw;
+  color: #313131;
 }
 
 .checkButton {
@@ -61,19 +80,20 @@ input {
 }
 
 .clicksplain {
-  margin-top: -8%;
-  margin-bottom: -6%;
+  margin-top: 3.5%;
   display: none;
   font-weight: 600;
-  font-size: 5vw;
+  font-size: 4.5vw;
   letter-spacing: 0.5vw;
+}
+
+.possibles {
+  display: none;
 }
 
 @media (hover: hover) {
   .material-icons:hover {
-    font-size: 10vw;
-    color: black;
-    margin-top: 6%;
+    color: rgb(53, 53, 53);
   }
 }
 
@@ -86,13 +106,64 @@ input {
 }
 
 /* Larger than tablet */
-@media (min-width: 750px) {
+@media (min-width: 600px) {
+  body {
+    font-size: 4vw;
+  }
+
+  .word > div {
+    padding: 0.5vw;
+    width: 6vw;
+    margin: 0.5vw;
+    cursor: pointer;
+    background-color: white;
+  }
+
+  .title {
+    font-size: 6vw;
+  }
+
+  .clicksplain {
+    font-size: 2.5vw;
+  }
+
+  .material-icons {
+    margin-top: 3%;
+    font-size: 3.5vw;
+    color: rgb(22, 22, 22);
+  }
 }
 
 /* Larger than desktop */
-@media (min-width: 1000px) {
-}
+@media (min-width: 1100px) {
+  body {
+    font-size: 2vw;
+    padding-top: 0;
+  }
 
-/* Larger than Desktop HD */
-@media (min-width: 1200px) {
+  .input {
+    margin-top: 4%;
+  }
+
+  .word > div {
+    padding: 0.5vw;
+    width: 3vw;
+    margin: 0.3vw;
+    cursor: pointer;
+    background-color: white;
+  }
+
+  .title {
+    font-size: 4vw;
+  }
+
+  .clicksplain {
+    font-size: 1.5vw;
+  }
+
+  .material-icons {
+    margin-top: 3%;
+    font-size: 3vw;
+    color: rgb(22, 22, 22);
+  }
 }

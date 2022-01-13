@@ -1,4 +1,4 @@
-# Dugwardle
+# Dugwordle
 
 A wordle solving website
 
