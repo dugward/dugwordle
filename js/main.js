@@ -1,3 +1,13 @@
+const fetchPromise = fetch(
+  `https://sheets.googleapis.com/v4/spreadsheets/102Fwo_A5K_JghlMSiBIY14PDrtuxF16a9yZYC319lHk/values/Sheet1!A:B?key=AIzaSyDhWPlEcxL18J5VRjMBnaE3UXcdJkA1N0Q`
+);
+fetchPromise
+  .then((response) => {
+    return response.json();
+  })
+  .then((x) => {
+    console.log(x);
+  });
 var letterList = [
   "s",
   "e",
@@ -390,8 +400,9 @@ function anaSearch() {
         }
       }
     });
-
+    unigrams = [...new Set(unigrams)];
     console.log(`unigrams post: ${unigrams}`);
+    copygrams = [...new Set(copygrams)];
     console.log(`copygrams post: ${copygrams}`);
   }
 }

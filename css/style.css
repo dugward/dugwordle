@@ -110,7 +110,7 @@ input {
   font-weight: 400;
   font-style: normal;
   text-transform: lowercase;
-  margin-top: 110%;
+  margin-top: 40%;
   color: rgb(77, 76, 76);
 }
 
@@ -155,6 +155,10 @@ input {
     font-size: 3.5vw;
     color: rgb(22, 22, 22);
   }
+  .dugward {
+    font-size: 3vw;
+    margin-top: 40%;
+  }
 }
 
 /* Larger than desktop */
@@ -188,5 +192,9 @@ input {
     margin-top: 3%;
     font-size: 3vw;
     color: rgb(22, 22, 22);
+  }
+  .dugward {
+    font-size: 2vw;
+    margin-top: 15%;
   }
 }
