@@ -1,3 +1,13 @@
+var onecount = 0;
+var twocount = 0;
+var threecount = 0;
+var fourcount = 0;
+var fivecount = 0;
+var sixcount = 0;
+var xcount = 0;
+var totalcount = 0;
+var total = 0;
+
 const fetchPromise = fetch(
   `https://sheets.googleapis.com/v4/spreadsheets/102Fwo_A5K_JghlMSiBIY14PDrtuxF16a9yZYC319lHk/values/Sheet1!A:B?key=AIzaSyDhWPlEcxL18J5VRjMBnaE3UXcdJkA1N0Q`
 );
@@ -7,7 +17,100 @@ fetchPromise
   })
   .then((x) => {
     console.log(x);
+
+    x.values.forEach((result) => {
+      if (result[1] == 1) {
+        onecount++;
+        totalcount++;
+        total = total + 1;
+      }
+      if (result[1] == 2) {
+        twocount++;
+        totalcount++;
+        total = total + 2;
+      }
+      if (result[1] == 3) {
+        threecount++;
+        totalcount++;
+        total = total + 3;
+      }
+      if (result[1] == 4) {
+        fourcount++;
+        totalcount++;
+        total = total + 4;
+      }
+      if (result[1] == 5) {
+        fivecount++;
+        totalcount++;
+        total = total + 5;
+      }
+      if (result[1] == 6) {
+        sixcount++;
+        totalcount++;
+        total = total + 6;
+      }
+      if (result[1] == 7) {
+        xcount++;
+        totalcount++;
+      }
+    });
+    for (let i = 0; i < 8; i++) {
+      const werd = x.values[i];
+      document
+        .querySelectorAll(".resultList")[0]
+        .insertAdjacentHTML(
+          "beforeend",
+          `<div class="resultitem"><span class="word">${werd[0]}</span><span class="result">${werd[1]}</span></div>`
+        );
+    }
+    document.querySelectorAll(".average")[0].innerHTML = `${(
+      total / totalcount
+    ).toFixed(2)}`;
+
+    //
+    document.querySelectorAll(".count1")[0].innerHTML = `(${onecount})`;
+    document.querySelectorAll(".count2")[0].innerHTML = `(${twocount})`;
+    document.querySelectorAll(".count3")[0].innerHTML = `(${threecount})`;
+    document.querySelectorAll(".count4")[0].innerHTML = `(${fourcount})`;
+    document.querySelectorAll(".count5")[0].innerHTML = `(${fivecount})`;
+    document.querySelectorAll(".count6")[0].innerHTML = `(${sixcount})`;
+    document.querySelectorAll(".countx")[0].innerHTML = `(${xcount})`;
+    //
+    document.querySelectorAll(".bar1")[0].style.width = `${
+      (onecount / totalcount) * 72
+    }%`;
+    document.querySelectorAll(".bar2")[0].style.width = `${
+      (twocount / totalcount) * 72
+    }%`;
+    document.querySelectorAll(".bar3")[0].style.width = `${
+      (threecount / totalcount) * 72
+    }%`;
+    document.querySelectorAll(".bar4")[0].style.width = `${
+      (fourcount / totalcount) * 72
+    }%`;
+    document.querySelectorAll(".bar5")[0].style.width = `${
+      (fivecount / totalcount) * 72
+    }%`;
+    document.querySelectorAll(".bar6")[0].style.width = `${
+      (sixcount / totalcount) * 72
+    }%`;
+    document.querySelectorAll(".barx")[0].style.width = `${
+      (xcount / totalcount) * 72
+    }%`;
   });
+
+document.querySelectorAll(".closestats")[0].addEventListener("click", () => {
+  document.querySelectorAll(".statblock")[0].style.display = "none";
+  document.querySelectorAll(".stats")[0].style.display = "block";
+  document.querySelectorAll(".closestats")[0].style.display = "none";
+});
+
+document.querySelectorAll(".stats")[0].addEventListener("click", () => {
+  document.querySelectorAll(".statblock")[0].style.display = "block";
+  document.querySelectorAll(".stats")[0].style.display = "none";
+  document.querySelectorAll(".closestats")[0].style.display = "block";
+});
+
 var letterList = [
   "s",
   "e",
@@ -248,13 +351,19 @@ function enterWord() {
     console.log(
       `${letter1} / ${letter2} / ${letter3} / ${letter4} / ${letter5}`
     );
-    anaSearch();
-    counter++;
-    enterNextWord();
+    anaSearch().then(() => {
+      setTimeout(() => {
+        counter++;
+        enterNextWord();
+      }, 1000);
+    });
   }
 }
 
+const wordbot = document.querySelectorAll(".wordbot")[0];
+
 function anaSearch() {
+  wordbot.innerHTML = "";
   var endLetter = 4;
   while (unigrams.length == 0 && endLetter < 26) {
     console.log("adding a letter");
@@ -280,7 +389,6 @@ function anaSearch() {
       if (knownLetters.every((val) => wordLetters.includes(val)) == true) {
         knownlettergrams.push(word);
       } else {
-        return false;
       }
     });
     console.log(`knownlettergrams = ${knownlettergrams}`);
@@ -290,10 +398,18 @@ function anaSearch() {
       const wordLetters = [...new Set(wordLettersAll)];
       if (wordLetters.length < wordLettersAll.length) {
         copygrams.push(word);
-        console.log(`anagram added = ${word}`);
+        wordbot.insertAdjacentHTML(
+          "beforeend",
+          `<span class="werd ${word}">${word} </span>`
+        );
+        // console.log(`anagram added = ${word}`);
       } else {
         unigrams.unshift(word);
-        console.log(`anagram added = ${word}`);
+        wordbot.insertAdjacentHTML(
+          "afterbegin",
+          `<span class="werd ${word}">${word} </span>`
+        );
+        // console.log(`anagram added = ${word}`);
       }
     });
 
@@ -309,26 +425,31 @@ function anaSearch() {
       if (letter1not.length > 0) {
         if (letter1not.includes(wordLettersAll[0])) {
           unigrams = unigrams.filter((item) => item !== word);
+          wordbot.querySelectorAll(`.${word}`)[0].style.display = "none";
         }
       }
       if (letter2not.length > 0) {
         if (letter2not.includes(wordLettersAll[1])) {
           unigrams = unigrams.filter((item) => item !== word);
+          wordbot.querySelectorAll(`.${word}`)[0].style.display = "none";
         }
       }
       if (letter3not.length > 0) {
         if (letter3not.includes(wordLettersAll[2])) {
           unigrams = unigrams.filter((item) => item !== word);
+          wordbot.querySelectorAll(`.${word}`)[0].style.display = "none";
         }
       }
       if (letter4not.length > 0) {
         if (letter4not.includes(wordLettersAll[3])) {
           unigrams = unigrams.filter((item) => item !== word);
+          wordbot.querySelectorAll(`.${word}`)[0].style.display = "none";
         }
       }
       if (letter5not.length > 0) {
         if (letter5not.includes(wordLettersAll[4])) {
           unigrams = unigrams.filter((item) => item !== word);
+          wordbot.querySelectorAll(`.${word}`)[0].style.display = "none";
         }
       }
     });
@@ -339,26 +460,31 @@ function anaSearch() {
       if (letter1 != undefined) {
         if (wordLettersAll[0] != letter1) {
           unigrams = unigrams.filter((item) => item !== word);
+          wordbot.querySelectorAll(`.${word}`)[0].style.display = "none";
         }
       }
       if (letter2 != undefined) {
         if (wordLettersAll[1] != letter2) {
           unigrams = unigrams.filter((item) => item !== word);
+          wordbot.querySelectorAll(`.${word}`)[0].style.display = "none";
         }
       }
       if (letter3 != undefined) {
         if (wordLettersAll[2] != letter3) {
           unigrams = unigrams.filter((item) => item !== word);
+          wordbot.querySelectorAll(`.${word}`)[0].style.display = "none";
         }
       }
       if (letter4 != undefined) {
         if (wordLettersAll[3] != letter4) {
           unigrams = unigrams.filter((item) => item !== word);
+          wordbot.querySelectorAll(`.${word}`)[0].style.display = "none";
         }
       }
       if (letter5 != undefined) {
         if (wordLettersAll[4] != letter5) {
           unigrams = unigrams.filter((item) => item !== word);
+          wordbot.querySelectorAll(`.${word}`)[0].style.display = "none";
         }
       }
     });
@@ -369,26 +495,31 @@ function anaSearch() {
       if (letter1not.length > 0) {
         if (letter1not.includes(wordLettersAll[0])) {
           copygrams = copygrams.filter((item) => item !== word);
+          wordbot.querySelectorAll(`.${word}`)[0].style.display = "none";
         }
       }
       if (letter2not.length > 0) {
         if (letter2not.includes(wordLettersAll[1])) {
           copygrams = copygrams.filter((item) => item !== word);
+          wordbot.querySelectorAll(`.${word}`)[0].style.display = "none";
         }
       }
       if (letter3not.length > 0) {
         if (letter3not.includes(wordLettersAll[2])) {
           copygrams = copygrams.filter((item) => item !== word);
+          wordbot.querySelectorAll(`.${word}`)[0].style.display = "none";
         }
       }
       if (letter4not.length > 0) {
         if (letter4not.includes(wordLettersAll[3])) {
           copygrams = copygrams.filter((item) => item !== word);
+          wordbot.querySelectorAll(`.${word}`)[0].style.display = "none";
         }
       }
       if (letter5not.length > 0) {
         if (letter5not.includes(wordLettersAll[4])) {
           copygrams = copygrams.filter((item) => item !== word);
+          wordbot.querySelectorAll(`.${word}`)[0].style.display = "none";
         }
       }
     });
@@ -399,34 +530,41 @@ function anaSearch() {
       if (letter1 != undefined) {
         if (wordLettersAll[0] != letter1) {
           copygrams = copygrams.filter((item) => item !== word);
+          wordbot.querySelectorAll(`.${word}`)[0].style.display = "none";
         }
       }
       if (letter2 != undefined) {
         if (wordLettersAll[1] != letter2) {
           copygrams = copygrams.filter((item) => item !== word);
+          wordbot.querySelectorAll(`.${word}`)[0].style.display = "none";
         }
       }
       if (letter3 != undefined) {
         if (wordLettersAll[2] != letter3) {
           copygrams = copygrams.filter((item) => item !== word);
+          wordbot.querySelectorAll(`.${word}`)[0].style.display = "none";
         }
       }
       if (letter4 != undefined) {
         if (wordLettersAll[3] != letter4) {
           copygrams = copygrams.filter((item) => item !== word);
+          wordbot.querySelectorAll(`.${word}`)[0].style.display = "none";
         }
       }
       if (letter5 != undefined) {
         if (wordLettersAll[4] != letter5) {
           copygrams = copygrams.filter((item) => item !== word);
+          wordbot.querySelectorAll(`.${word}`)[0].style.display = "none";
         }
       }
     });
+
     unigrams = [...new Set(unigrams)];
     console.log(`unigrams post: ${unigrams}`);
     copygrams = [...new Set(copygrams)];
     console.log(`copygrams post: ${copygrams}`);
   }
+  return Promise.resolve("hi");
 }
 
 var dict = [

@@ -1,7 +1,6 @@
 body {
   padding: 5% 8% 0;
   text-align: center;
-
   font-size: 7vw;
   text-transform: uppercase;
   font-family: neue-haas-grotesk-display, sans-serif;
@@ -82,6 +81,24 @@ input {
   background-color: white;
 }
 
+.wordbot {
+  text-align: left;
+display: block;
+/* overflow-wrap:break-word; */
+/* white-space: normal; */
+}
+
+.werd{
+  font-family: fenway-park-jf, sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  text-transform: lowercase;
+  font-size: 6vw;
+  color: #313131;
+  padding-right: 6vw;
+  
+}
+
 .material-icons {
   font-size: 8.5vw;
   color: #313131;
@@ -103,19 +120,98 @@ input {
   display: none;
 }
 
-.dugward {
-  font-size: 5vw;
+.stats {
+  margin-top: 30%;
+  margin-bottom: -8%;
+}
+
+.closestats {
+  margin-top: 2%;
+  display: none;
+}
+
+.dugward,
+.stats,
+.closestats {
   text-align: center;
   font-family: fenway-park-jf, sans-serif;
   font-weight: 400;
   font-style: normal;
   text-transform: lowercase;
-  margin-top: 40%;
   color: rgb(77, 76, 76);
+  font-size: 6vw;
+  clear: both;
+  cursor: pointer;
+}
+
+.dugward{
+  padding-top: 8%;
+}
+
+
+.statblock {
+  width: 70%;
+  text-align: left;
+  margin: 4% auto%;
+  display: none;
+
+  
+}
+
+div.number {
+  margin-top: -15%;
+}
+
+.ave{
+  padding-top: 5%;
+}
+
+.average{
+  padding-left: 3vw;
+}
+
+span.number {
+  font-size: 3vw;
+  display: inline-block;
+}
+
+span.count {
+  font-size: 2.5vw;
+  display: inline-block;
+  color: rgb(61, 61, 61);
+}
+
+.bar {
+  display: inline-block;
+  height: 1.5vw;
+  width: 72%;
+  margin-left: 5%;
+  margin-right: 5%;
+  background-color: gray;
+}
+
+.resultList {
+  display: block;
+  margin-top: 5%;
+  text-align: left;
+  font-size: 3vw;
+  color: rgb(83, 83, 83);
+  width: 100%
+  
+}
+.resultitem {border-bottom: 1px rgb(80, 79, 79) dotted;
+display: block;
+ float: left;
+width: 30%;
+margin-right: 10%;}
+
+.result {
+float: right;
 }
 
 @media (hover: hover) {
   .material-icons:hover {
+    cursor: pointer;
     color: rgb(53, 53, 53);
   }
 }
@@ -142,6 +238,14 @@ input {
     background-color: white;
   }
 
+  
+.werd{
+  
+  font-size: 3.5vw;
+  margin-top: 2%;
+  padding-right: 4vw;
+}
+
   .title {
     font-size: 6vw;
   }
@@ -155,10 +259,28 @@ input {
     font-size: 3.5vw;
     color: rgb(22, 22, 22);
   }
-  .dugward {
-    font-size: 3vw;
-    margin-top: 40%;
+
+  span.number,
+  span.count {
+    font-size: 2vw;
   }
+
+  div.number {
+    margin-top: -5%;
+  }
+
+  .bar {
+    height: 1.5vw;
+  }
+
+  .dugward,
+  .stats,
+  .closestats {
+    font-size: 3.5vw;
+  }
+
+  .resultList {
+    font-size: 2.25vw;
 }
 
 /* Larger than desktop */
@@ -180,6 +302,13 @@ input {
     background-color: white;
   }
 
+  .werd{
+  
+    font-size: 2vw;
+    margin-top: 2%;
+    padding-right: 2vw;
+  }
+
   .title {
     font-size: 4vw;
   }
@@ -193,8 +322,31 @@ input {
     font-size: 3vw;
     color: rgb(22, 22, 22);
   }
-  .dugward {
-    font-size: 2vw;
-    margin-top: 15%;
+
+  span.number,
+  span.count {
+    font-size: 1vw;
   }
+
+  .bar {
+    height: 1vw;
+  }
+
+  div.number {
+    margin-top: -3%;
+  }
+
+  .dugward,
+  .stats,
+  .closestats {
+    font-size: 2vw;
+  }
+
+  .resultList {
+    font-size: 1.25vw;
+}
+
+.statblock {
+  width: 55%;
+}
 }
