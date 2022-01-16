@@ -378,6 +378,7 @@ function anaSearch() {
   wordbot.innerHTML = "";
   var endLetter = 4;
   while (unigrams.length == 0 && endLetter < 26) {
+    wordbot.innerHTML = "";
     console.log("adding a letter");
     endLetter++;
     var topLetters = letterList.slice(0, endLetter);
@@ -410,22 +411,31 @@ function anaSearch() {
       const wordLetters = [...new Set(wordLettersAll)];
       if (wordLetters.length < wordLettersAll.length) {
         copygrams.push(word);
-        wordbot.insertAdjacentHTML(
-          "beforeend",
-          `<span class="werd ${word}">${word} </span>`
-        );
+
         // console.log(`anagram added = ${word}`);
       } else {
         unigrams.unshift(word);
-        wordbot.insertAdjacentHTML(
-          "afterbegin",
-          `<span class="werd ${word}">${word} </span>`
-        );
+
         // console.log(`anagram added = ${word}`);
       }
     });
 
     ///
+    unigrams = [...new Set(unigrams)];
+    unigrams.forEach((el) => {
+      wordbot.insertAdjacentHTML(
+        "beforeend",
+        `<span class="werd ${el}">${el} </span>`
+      );
+    });
+    copygrams = [...new Set(copygrams)];
+
+    copygrams.forEach((el) => {
+      wordbot.insertAdjacentHTML(
+        "afterbegin",
+        `<span class="werd ${el}">${el} </span>`
+      );
+    });
     console.log(`unigrams pre filter: ${unigrams}`);
     console.log(`copygrams pre filter: ${copygrams}`);
 
@@ -571,9 +581,8 @@ function anaSearch() {
       }
     });
 
-    unigrams = [...new Set(unigrams)];
     console.log(`unigrams post: ${unigrams}`);
-    copygrams = [...new Set(copygrams)];
+
     console.log(`copygrams post: ${copygrams}`);
   }
   return Promise.resolve("hi");
