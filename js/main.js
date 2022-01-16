@@ -264,11 +264,15 @@ function anaSearch() {
       const wordLettersAll = Array.from(word);
       const wordLetters = [...new Set(wordLettersAll)];
       if (wordLetters.every((val) => topLetters.includes(val)) == true) {
+        console.log(`potential anagram = ${word}`);
         if (knownLetters.every((val) => wordLetters.includes(val)) == true) {
+          console.log(`anagram w/known = ${word}`);
           if (wordLetters.length < wordLettersAll.length) {
             copygrams.push(word);
+            console.log(`anagram added = ${word}`);
           } else {
             unigrams.unshift(word);
+            console.log(`anagram added = ${word}`);
           }
         }
       } else {
