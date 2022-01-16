@@ -154,6 +154,9 @@ var counter = 10;
 const input = document.querySelectorAll("input")[0];
 
 function enterFirstWord() {
+  document.querySelectorAll(".statblock")[0].style.display = "none";
+  document.querySelectorAll(".stats")[0].style.display = "block";
+  document.querySelectorAll(".closestats")[0].style.display = "none";
   const input = document.querySelectorAll("input")[0];
   word = input.value;
   word = word.toLowerCase();
