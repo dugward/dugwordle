@@ -53,6 +53,7 @@ const input = document.querySelectorAll("input")[0];
 function enterFirstWord() {
   const input = document.querySelectorAll("input")[0];
   word = input.value;
+  word = word.toLowerCase();
   dict = dict.filter((item) => item !== word);
   if (word.length == 5) {
     document.querySelectorAll(".clicksplain")[0].style.display = "block";
@@ -260,26 +261,43 @@ function anaSearch() {
     endLetter++;
     var topLetters = letterList.slice(0, endLetter);
     console.log(`top letters = ${topLetters}`);
+    var toplettergrams = [];
+    var knownlettergrams = [];
     dict.forEach((word) => {
       const wordLettersAll = Array.from(word);
       const wordLetters = [...new Set(wordLettersAll)];
       if (wordLetters.every((val) => topLetters.includes(val)) == true) {
-        console.log(`potential anagram = ${word}`);
-        if (knownLetters.every((val) => wordLetters.includes(val)) == true) {
-          console.log(`anagram w/known = ${word}`);
-          if (wordLetters.length < wordLettersAll.length) {
-            copygrams.push(word);
-            console.log(`anagram added = ${word}`);
-          } else {
-            unigrams.unshift(word);
-            console.log(`anagram added = ${word}`);
-          }
-        }
+        toplettergrams.push(word);
       } else {
         return false;
       }
     });
+    console.log(`toplettergrams = ${toplettergrams}`);
+    //
+    toplettergrams.forEach((word) => {
+      const wordLettersAll = Array.from(word);
+      const wordLetters = [...new Set(wordLettersAll)];
+      if (knownLetters.every((val) => wordLetters.includes(val)) == true) {
+        knownlettergrams.push(word);
+      } else {
+        return false;
+      }
+    });
+    console.log(`knownlettergrams = ${knownlettergrams}`);
+    //
+    knownlettergrams.forEach((word) => {
+      const wordLettersAll = Array.from(word);
+      const wordLetters = [...new Set(wordLettersAll)];
+      if (wordLetters.length < wordLettersAll.length) {
+        copygrams.push(word);
+        console.log(`anagram added = ${word}`);
+      } else {
+        unigrams.unshift(word);
+        console.log(`anagram added = ${word}`);
+      }
+    });
 
+    ///
     console.log(`unigrams pre filter: ${unigrams}`);
     console.log(`copygrams pre filter: ${copygrams}`);
 
