@@ -354,12 +354,21 @@ function enterWord() {
     console.log(
       `${letter1} / ${letter2} / ${letter3} / ${letter4} / ${letter5}`
     );
-    anaSearch().then(() => {
-      setTimeout(() => {
-        counter++;
-        enterNextWord();
-      }, 1000);
-    });
+    anaSearch()
+      .then(() => {
+        setTimeout(() => {
+          const deletes = document.querySelectorAll(".delete");
+          deletes.forEach((word) => {
+            word.style.display = "none";
+          });
+        }, 2000);
+      })
+      .then(() => {
+        setTimeout(() => {
+          counter++;
+          enterNextWord();
+        }, 3000);
+      });
   }
 }
 
@@ -428,31 +437,31 @@ function anaSearch() {
       if (letter1not.length > 0) {
         if (letter1not.includes(wordLettersAll[0])) {
           unigrams = unigrams.filter((item) => item !== word);
-          wordbot.querySelectorAll(`.${word}`)[0].style.display = "none";
+          wordbot.querySelectorAll(`.${word}`)[0].classList.add("delete");
         }
       }
       if (letter2not.length > 0) {
         if (letter2not.includes(wordLettersAll[1])) {
           unigrams = unigrams.filter((item) => item !== word);
-          wordbot.querySelectorAll(`.${word}`)[0].style.display = "none";
+          wordbot.querySelectorAll(`.${word}`)[0].classList.add("delete");
         }
       }
       if (letter3not.length > 0) {
         if (letter3not.includes(wordLettersAll[2])) {
           unigrams = unigrams.filter((item) => item !== word);
-          wordbot.querySelectorAll(`.${word}`)[0].style.display = "none";
+          wordbot.querySelectorAll(`.${word}`)[0].classList.add("delete");
         }
       }
       if (letter4not.length > 0) {
         if (letter4not.includes(wordLettersAll[3])) {
           unigrams = unigrams.filter((item) => item !== word);
-          wordbot.querySelectorAll(`.${word}`)[0].style.display = "none";
+          wordbot.querySelectorAll(`.${word}`)[0].classList.add("delete");
         }
       }
       if (letter5not.length > 0) {
         if (letter5not.includes(wordLettersAll[4])) {
           unigrams = unigrams.filter((item) => item !== word);
-          wordbot.querySelectorAll(`.${word}`)[0].style.display = "none";
+          wordbot.querySelectorAll(`.${word}`)[0].classList.add("delete");
         }
       }
     });
@@ -463,31 +472,31 @@ function anaSearch() {
       if (letter1 != undefined) {
         if (wordLettersAll[0] != letter1) {
           unigrams = unigrams.filter((item) => item !== word);
-          wordbot.querySelectorAll(`.${word}`)[0].style.display = "none";
+          wordbot.querySelectorAll(`.${word}`)[0].classList.add("delete");
         }
       }
       if (letter2 != undefined) {
         if (wordLettersAll[1] != letter2) {
           unigrams = unigrams.filter((item) => item !== word);
-          wordbot.querySelectorAll(`.${word}`)[0].style.display = "none";
+          wordbot.querySelectorAll(`.${word}`)[0].classList.add("delete");
         }
       }
       if (letter3 != undefined) {
         if (wordLettersAll[2] != letter3) {
           unigrams = unigrams.filter((item) => item !== word);
-          wordbot.querySelectorAll(`.${word}`)[0].style.display = "none";
+          wordbot.querySelectorAll(`.${word}`)[0].classList.add("delete");
         }
       }
       if (letter4 != undefined) {
         if (wordLettersAll[3] != letter4) {
           unigrams = unigrams.filter((item) => item !== word);
-          wordbot.querySelectorAll(`.${word}`)[0].style.display = "none";
+          wordbot.querySelectorAll(`.${word}`)[0].classList.add("delete");
         }
       }
       if (letter5 != undefined) {
         if (wordLettersAll[4] != letter5) {
           unigrams = unigrams.filter((item) => item !== word);
-          wordbot.querySelectorAll(`.${word}`)[0].style.display = "none";
+          wordbot.querySelectorAll(`.${word}`)[0].classList.add("delete");
         }
       }
     });
@@ -498,31 +507,31 @@ function anaSearch() {
       if (letter1not.length > 0) {
         if (letter1not.includes(wordLettersAll[0])) {
           copygrams = copygrams.filter((item) => item !== word);
-          wordbot.querySelectorAll(`.${word}`)[0].style.display = "none";
+          wordbot.querySelectorAll(`.${word}`)[0].classList.add("delete");
         }
       }
       if (letter2not.length > 0) {
         if (letter2not.includes(wordLettersAll[1])) {
           copygrams = copygrams.filter((item) => item !== word);
-          wordbot.querySelectorAll(`.${word}`)[0].style.display = "none";
+          wordbot.querySelectorAll(`.${word}`)[0].classList.add("delete");
         }
       }
       if (letter3not.length > 0) {
         if (letter3not.includes(wordLettersAll[2])) {
           copygrams = copygrams.filter((item) => item !== word);
-          wordbot.querySelectorAll(`.${word}`)[0].style.display = "none";
+          wordbot.querySelectorAll(`.${word}`)[0].classList.add("delete");
         }
       }
       if (letter4not.length > 0) {
         if (letter4not.includes(wordLettersAll[3])) {
           copygrams = copygrams.filter((item) => item !== word);
-          wordbot.querySelectorAll(`.${word}`)[0].style.display = "none";
+          wordbot.querySelectorAll(`.${word}`)[0].classList.add("delete");
         }
       }
       if (letter5not.length > 0) {
         if (letter5not.includes(wordLettersAll[4])) {
           copygrams = copygrams.filter((item) => item !== word);
-          wordbot.querySelectorAll(`.${word}`)[0].style.display = "none";
+          wordbot.querySelectorAll(`.${word}`)[0].classList.add("delete");
         }
       }
     });
@@ -533,31 +542,31 @@ function anaSearch() {
       if (letter1 != undefined) {
         if (wordLettersAll[0] != letter1) {
           copygrams = copygrams.filter((item) => item !== word);
-          wordbot.querySelectorAll(`.${word}`)[0].style.display = "none";
+          wordbot.querySelectorAll(`.${word}`)[0].classList.add("delete");
         }
       }
       if (letter2 != undefined) {
         if (wordLettersAll[1] != letter2) {
           copygrams = copygrams.filter((item) => item !== word);
-          wordbot.querySelectorAll(`.${word}`)[0].style.display = "none";
+          wordbot.querySelectorAll(`.${word}`)[0].classList.add("delete");
         }
       }
       if (letter3 != undefined) {
         if (wordLettersAll[2] != letter3) {
           copygrams = copygrams.filter((item) => item !== word);
-          wordbot.querySelectorAll(`.${word}`)[0].style.display = "none";
+          wordbot.querySelectorAll(`.${word}`)[0].classList.add("delete");
         }
       }
       if (letter4 != undefined) {
         if (wordLettersAll[3] != letter4) {
           copygrams = copygrams.filter((item) => item !== word);
-          wordbot.querySelectorAll(`.${word}`)[0].style.display = "none";
+          wordbot.querySelectorAll(`.${word}`)[0].classList.add("delete");
         }
       }
       if (letter5 != undefined) {
         if (wordLettersAll[4] != letter5) {
           copygrams = copygrams.filter((item) => item !== word);
-          wordbot.querySelectorAll(`.${word}`)[0].style.display = "none";
+          wordbot.querySelectorAll(`.${word}`)[0].classList.add("delete");
         }
       }
     });
