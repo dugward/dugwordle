@@ -1,115 +1,4 @@
-var onecount = 0;
-var twocount = 0;
-var threecount = 0;
-var fourcount = 0;
-var fivecount = 0;
-var sixcount = 0;
-var xcount = 0;
-var totalcount = 0;
-var total = 0;
-
-const fetchPromise = fetch(
-  `https://sheets.googleapis.com/v4/spreadsheets/102Fwo_A5K_JghlMSiBIY14PDrtuxF16a9yZYC319lHk/values/Sheet1!A:B?key=AIzaSyDhWPlEcxL18J5VRjMBnaE3UXcdJkA1N0Q`
-);
-fetchPromise
-  .then((response) => {
-    return response.json();
-  })
-  .then((x) => {
-    console.log(x);
-
-    x.values.forEach((result) => {
-      if (result[1] == 1) {
-        onecount++;
-        totalcount++;
-        total = total + 1;
-      }
-      if (result[1] == 2) {
-        twocount++;
-        totalcount++;
-        total = total + 2;
-      }
-      if (result[1] == 3) {
-        threecount++;
-        totalcount++;
-        total = total + 3;
-      }
-      if (result[1] == 4) {
-        fourcount++;
-        totalcount++;
-        total = total + 4;
-      }
-      if (result[1] == 5) {
-        fivecount++;
-        totalcount++;
-        total = total + 5;
-      }
-      if (result[1] == 6) {
-        sixcount++;
-        totalcount++;
-        total = total + 6;
-      }
-      if (result[1] == 7) {
-        xcount++;
-        totalcount++;
-      }
-    });
-    for (let i = 0; i < 8; i++) {
-      const werd = x.values[i];
-      document
-        .querySelectorAll(".resultList")[0]
-        .insertAdjacentHTML(
-          "beforeend",
-          `<div class="resultitem"><span class="word">${werd[0]}</span><span class="result">${werd[1]}</span></div>`
-        );
-    }
-    document.querySelectorAll(".average")[0].innerHTML = `${(
-      total / totalcount
-    ).toFixed(2)}`;
-
-    //
-    document.querySelectorAll(".count1")[0].innerHTML = `(${onecount})`;
-    document.querySelectorAll(".count2")[0].innerHTML = `(${twocount})`;
-    document.querySelectorAll(".count3")[0].innerHTML = `(${threecount})`;
-    document.querySelectorAll(".count4")[0].innerHTML = `(${fourcount})`;
-    document.querySelectorAll(".count5")[0].innerHTML = `(${fivecount})`;
-    document.querySelectorAll(".count6")[0].innerHTML = `(${sixcount})`;
-    document.querySelectorAll(".countx")[0].innerHTML = `(${xcount})`;
-    //
-    document.querySelectorAll(".bar1")[0].style.width = `${
-      (onecount / totalcount) * 72
-    }%`;
-    document.querySelectorAll(".bar2")[0].style.width = `${
-      (twocount / totalcount) * 72
-    }%`;
-    document.querySelectorAll(".bar3")[0].style.width = `${
-      (threecount / totalcount) * 72
-    }%`;
-    document.querySelectorAll(".bar4")[0].style.width = `${
-      (fourcount / totalcount) * 72
-    }%`;
-    document.querySelectorAll(".bar5")[0].style.width = `${
-      (fivecount / totalcount) * 72
-    }%`;
-    document.querySelectorAll(".bar6")[0].style.width = `${
-      (sixcount / totalcount) * 72
-    }%`;
-    document.querySelectorAll(".barx")[0].style.width = `${
-      (xcount / totalcount) * 72
-    }%`;
-  });
-
-document.querySelectorAll(".closestats")[0].addEventListener("click", () => {
-  document.querySelectorAll(".statblock")[0].style.display = "none";
-  document.querySelectorAll(".stats")[0].style.display = "block";
-  document.querySelectorAll(".closestats")[0].style.display = "none";
-});
-
-document.querySelectorAll(".stats")[0].addEventListener("click", () => {
-  document.querySelectorAll(".statblock")[0].style.display = "block";
-  document.querySelectorAll(".stats")[0].style.display = "none";
-  document.querySelectorAll(".closestats")[0].style.display = "block";
-});
+//the letters we'll use for anagrams, sorted by theur frequency in the dictionary we're using.
 
 var letterList = [
   "s",
@@ -140,6 +29,8 @@ var letterList = [
   "q",
 ];
 
+//buckets to fill up with stuff
+
 var knownLetters = [];
 
 var letter1, letter2, letter3, letter4, letter5, word;
@@ -149,9 +40,29 @@ var letter3not = [];
 var letter4not = [];
 var letter5not = [];
 
+//a counter to track how many letter's we've gonme through to find anagrams
+
 var counter = 10;
 
+//grab the first word
+
 const input = document.querySelectorAll("input")[0];
+
+//event listeners for firstword entry
+
+document
+  .querySelectorAll(".checkButtonFirst")[0]
+  .addEventListener("click", enterFirstWord);
+
+input.addEventListener("keypress", () => {
+  if (event.keyCode == 13 && input.style.display != "none") {
+    enterFirstWord();
+  } else {
+    return false;
+  }
+});
+
+//enter the first word
 
 function enterFirstWord() {
   document.querySelectorAll(".statblock")[0].style.display = "none";
@@ -160,7 +71,9 @@ function enterFirstWord() {
   const input = document.querySelectorAll("input")[0];
   word = input.value;
   word = word.toLowerCase();
+  //remove the word from the possible guesses
   dict = dict.filter((item) => item !== word);
+  //put the word up as seperate letters
   if (word.length == 5) {
     document.querySelectorAll(".clicksplain")[0].style.display = "block";
     input.style.display = "none";
@@ -175,6 +88,7 @@ function enterFirstWord() {
 </div>
 `
     );
+    //add event listeners for the letters to change colors and classes
     const letters = document.getElementsByClassName(`${counter} letter`);
     Array.from(letters).forEach((el) => {
       el.addEventListener("click", () => {
@@ -200,22 +114,125 @@ function enterFirstWord() {
   }
 }
 
+//event listener for entering letter color info and finding next word
+
+document
+  .querySelectorAll(".checkButton")[0]
+  .addEventListener("click", enterWord);
+
+const wordbot = document.querySelectorAll(".wordbot")[0];
+
+//all the anagrams
+var anagrams = [];
+//anagrams with no repreated letters
+var unigrams = [];
+//anagrams with repeated letters
+var copygrams = [];
+
+function enterWord() {
+  anagrams = [];
+  unigrams = [];
+  copygrams = [];
+
+  const letters = document.getElementsByClassName(`${counter} letter`);
+  //grab and process each letter for word based on color/class
+  Array.from(letters).forEach((letter) => {
+    //remove gray letters from letter list
+    if (letter.classList.contains("nix") == true) {
+      letterList = letterList.filter((item) => item !== letter.textContent);
+    }
+    //add yellow letters to knownLetters and not list for that letter #
+    if (letter.classList.contains("yellow") == true) {
+      if (letter.classList[0] == 1) {
+        letter1not.push(letter.textContent);
+        knownLetters.push(letter.textContent);
+      }
+      if (letter.classList[0] == 2) {
+        letter2not.push(letter.textContent);
+        knownLetters.push(letter.textContent);
+      }
+      if (letter.classList[0] == 3) {
+        letter3not.push(letter.textContent);
+        knownLetters.push(letter.textContent);
+      }
+      if (letter.classList[0] == 4) {
+        letter4not.push(letter.textContent);
+        knownLetters.push(letter.textContent);
+      }
+      if (letter.classList[0] == 5) {
+        letter5not.push(letter.textContent);
+        knownLetters.push(letter.textContent);
+      }
+    }
+    //add green letters to numbered letter variables
+    if (letter.classList.contains("green") == true) {
+      if (letter.classList[0] == 1) {
+        letter1 = letter.textContent;
+        knownLetters.push(letter.textContent);
+      }
+      if (letter.classList[0] == 2) {
+        letter2 = letter.textContent;
+        knownLetters.push(letter.textContent);
+      }
+      if (letter.classList[0] == 3) {
+        letter3 = letter.textContent;
+        knownLetters.push(letter.textContent);
+      }
+      if (letter.classList[0] == 4) {
+        letter4 = letter.textContent;
+        knownLetters.push(letter.textContent);
+      }
+      if (letter.classList[0] == 5) {
+        letter5 = letter.textContent;
+        knownLetters.push(letter.textContent);
+      }
+    }
+  });
+  knownLetters = [...new Set(knownLetters)];
+  console.log(`letterList length = ${letterList.length}`);
+  console.log(`known letters = ${knownLetters}`);
+  console.log(`${letter1} / ${letter2} / ${letter3} / ${letter4} / ${letter5}`);
+  //search for new anagrams
+  anaSearch()
+    .then(() => {
+      setTimeout(() => {
+        //delete rejected anagrams from the page after a couple of seconds
+        const deletes = document.querySelectorAll(".delete");
+        deletes.forEach((word) => {
+          word.style.display = "none";
+        });
+      }, 2000);
+    })
+    .then(() => {
+      setTimeout(() => {
+        counter++;
+        //put up the best new anagram
+        enterNextWord();
+      }, 3000);
+    });
+}
+
 function enterNextWord() {
+  //For the early guesses . . .
   if (counter < 11) {
+    //if there are unigrams, grab the first one as the next word
     if (unigrams.length > 0) {
       word = unigrams[0];
       dict = dict.filter((item) => item !== word);
+      //otherwise, grab the first copygram
     } else if (copygrams.length > 0) {
       word = copygrams[0];
       dict = dict.filter((item) => item !== word);
+      //if there is neither, apologize
     } else {
       document.querySelectorAll(".clicksplain")[0].innerHTML = "I can't help!";
     }
+    //for later guesses, any anagram goes
   } else {
     word = anagrams[0];
     dict = dict.filter((item) => item !== word);
   }
-
+  //put up the new word as split letters with event listeners. This should be made into a function with arguments so that it's not repeated.
   const wordLetters = word.split("");
   document.querySelectorAll(".words")[0].insertAdjacentHTML(
     "beforeEnd",
@@ -275,110 +292,6 @@ function enterNextWord() {
   }
 }
 
-var anagrams = [];
-var unigrams = [];
-var copygrams = [];
-
-document
-  .querySelectorAll(".checkButtonFirst")[0]
-  .addEventListener("click", enterFirstWord);
-
-input.addEventListener("keypress", () => {
-  if (event.keyCode == 13 && input.style.display != "none") {
-    enterFirstWord();
-  } else {
-    return false;
-  }
-});
-
-document
-  .querySelectorAll(".checkButton")[0]
-  .addEventListener("click", enterWord);
-
-function enterWord() {
-  if (counter < 15) {
-    anagrams = [];
-    unigrams = [];
-    copygrams = [];
-
-    const letters = document.getElementsByClassName(`${counter} letter`);
-
-    Array.from(letters).forEach((letter) => {
-      if (letter.classList.contains("nix") == true) {
-        letterList = letterList.filter((item) => item !== letter.textContent);
-      }
-      if (letter.classList.contains("yellow") == true) {
-        if (letter.classList[0] == 1) {
-          letter1not.push(letter.textContent);
-          knownLetters.push(letter.textContent);
-        }
-        if (letter.classList[0] == 2) {
-          letter2not.push(letter.textContent);
-          knownLetters.push(letter.textContent);
-        }
-        if (letter.classList[0] == 3) {
-          letter3not.push(letter.textContent);
-          knownLetters.push(letter.textContent);
-        }
-        if (letter.classList[0] == 4) {
-          letter4not.push(letter.textContent);
-          knownLetters.push(letter.textContent);
-        }
-        if (letter.classList[0] == 5) {
-          letter5not.push(letter.textContent);
-          knownLetters.push(letter.textContent);
-        }
-      }
-
-      if (letter.classList.contains("green") == true) {
-        if (letter.classList[0] == 1) {
-          letter1 = letter.textContent;
-          knownLetters.push(letter.textContent);
-        }
-        if (letter.classList[0] == 2) {
-          letter2 = letter.textContent;
-          knownLetters.push(letter.textContent);
-        }
-        if (letter.classList[0] == 3) {
-          letter3 = letter.textContent;
-          knownLetters.push(letter.textContent);
-        }
-        if (letter.classList[0] == 4) {
-          letter4 = letter.textContent;
-          knownLetters.push(letter.textContent);
-        }
-        if (letter.classList[0] == 5) {
-          letter5 = letter.textContent;
-          knownLetters.push(letter.textContent);
-        }
-      }
-    });
-    knownLetters = [...new Set(knownLetters)];
-    console.log(`letterList length = ${letterList.length}`);
-    console.log(`known letters = ${knownLetters}`);
-    console.log(
-      `${letter1} / ${letter2} / ${letter3} / ${letter4} / ${letter5}`
-    );
-    anaSearch()
-      .then(() => {
-        setTimeout(() => {
-          const deletes = document.querySelectorAll(".delete");
-          deletes.forEach((word) => {
-            word.style.display = "none";
-          });
-        }, 2000);
-      })
-      .then(() => {
-        setTimeout(() => {
-          counter++;
-          enterNextWord();
-        }, 3000);
-      });
-  }
-}
-
-const wordbot = document.querySelectorAll(".wordbot")[0];
-
 function anaSearch() {
   wordbot.innerHTML = "";
   var endLetter = 4;
@@ -424,7 +337,7 @@ function anaSearch() {
 
         // console.log(`anagram added = ${word}`);
       } else {
-        unigrams.unshift(word);
+        unigrams.push(word);
         anagrams.push(word);
 
         // console.log(`anagram added = ${word}`);
@@ -439,14 +352,14 @@ function anaSearch() {
         `<span class="werd ${el}">${el} </span>`
       );
     });
-    copygrams = [...new Set(copygrams)];
-
     copygrams.forEach((el) => {
       wordbot.insertAdjacentHTML(
-        "afterbegin",
+        "beforeend",
         `<span class="werd ${el}">${el} </span>`
       );
     });
+
+    copygrams = [...new Set(copygrams)];
     console.log(`unigrams pre filter: ${unigrams}`);
     console.log(`copygrams pre filter: ${copygrams}`);
 
@@ -661,8 +574,126 @@ function anaSearch() {
 
     console.log(`copygrams post: ${copygrams}`);
   }
-  return Promise.resolve("hi");
+  return Promise.resolve("donezo");
 }
+
+// THE STATS
+
+//little counters to count the number of wins for each number of tries
+var onecount = 0;
+var twocount = 0;
+var threecount = 0;
+var fourcount = 0;
+var fivecount = 0;
+var sixcount = 0;
+var xcount = 0;
+var totalcount = 0;
+var total = 0;
+
+//let's grab the word and number of tries list and put up the stats
+
+const fetchPromise = fetch(
+  `https://sheets.googleapis.com/v4/spreadsheets/102Fwo_A5K_JghlMSiBIY14PDrtuxF16a9yZYC319lHk/values/Sheet1!A:B?key=AIzaSyDhWPlEcxL18J5VRjMBnaE3UXcdJkA1N0Q`
+);
+fetchPromise
+  .then((response) => {
+    return response.json();
+  })
+  .then((x) => {
+    console.log(x);
+
+    x.values.forEach((result) => {
+      if (result[1] == 1) {
+        onecount++;
+        totalcount++;
+        total = total + 1;
+      }
+      if (result[1] == 2) {
+        twocount++;
+        totalcount++;
+        total = total + 2;
+      }
+      if (result[1] == 3) {
+        threecount++;
+        totalcount++;
+        total = total + 3;
+      }
+      if (result[1] == 4) {
+        fourcount++;
+        totalcount++;
+        total = total + 4;
+      }
+      if (result[1] == 5) {
+        fivecount++;
+        totalcount++;
+        total = total + 5;
+      }
+      if (result[1] == 6) {
+        sixcount++;
+        totalcount++;
+        total = total + 6;
+      }
+      if (result[1] == 7) {
+        xcount++;
+        totalcount++;
+      }
+    });
+    for (let i = 0; i < 8; i++) {
+      const werd = x.values[i];
+      document
+        .querySelectorAll(".resultList")[0]
+        .insertAdjacentHTML(
+          "beforeend",
+          `<div class="resultitem"><span class="word">${werd[0]}</span><span class="result">${werd[1]}</span></div>`
+        );
+    }
+    document.querySelectorAll(".average")[0].innerHTML = `${(
+      total / totalcount
+    ).toFixed(2)}`;
+
+    //putting up the counts
+    document.querySelectorAll(".count1")[0].innerHTML = `(${onecount})`;
+    document.querySelectorAll(".count2")[0].innerHTML = `(${twocount})`;
+    document.querySelectorAll(".count3")[0].innerHTML = `(${threecount})`;
+    document.querySelectorAll(".count4")[0].innerHTML = `(${fourcount})`;
+    document.querySelectorAll(".count5")[0].innerHTML = `(${fivecount})`;
+    document.querySelectorAll(".count6")[0].innerHTML = `(${sixcount})`;
+    document.querySelectorAll(".countx")[0].innerHTML = `(${xcount})`;
+    //making the bars the right width
+    document.querySelectorAll(".bar1")[0].style.width = `${
+      (onecount / totalcount) * 72
+    }%`;
+    document.querySelectorAll(".bar2")[0].style.width = `${
+      (twocount / totalcount) * 72
+    }%`;
+    document.querySelectorAll(".bar3")[0].style.width = `${
+      (threecount / totalcount) * 72
+    }%`;
+    document.querySelectorAll(".bar4")[0].style.width = `${
+      (fourcount / totalcount) * 72
+    }%`;
+    document.querySelectorAll(".bar5")[0].style.width = `${
+      (fivecount / totalcount) * 72
+    }%`;
+    document.querySelectorAll(".bar6")[0].style.width = `${
+      (sixcount / totalcount) * 72
+    }%`;
+    document.querySelectorAll(".barx")[0].style.width = `${
+      (xcount / totalcount) * 72
+    }%`;
+  });
+//listen for the stats button and close stats button.
+document.querySelectorAll(".closestats")[0].addEventListener("click", () => {
+  document.querySelectorAll(".statblock")[0].style.display = "none";
+  document.querySelectorAll(".stats")[0].style.display = "block";
+  document.querySelectorAll(".closestats")[0].style.display = "none";
+});
+
+document.querySelectorAll(".stats")[0].addEventListener("click", () => {
+  document.querySelectorAll(".statblock")[0].style.display = "block";
+  document.querySelectorAll(".stats")[0].style.display = "none";
+  document.querySelectorAll(".closestats")[0].style.display = "block";
+});
 
 var dict = [
   "which",
